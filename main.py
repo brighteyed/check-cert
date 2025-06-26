@@ -30,7 +30,14 @@ def check_domains(file_path, warning_days):
     warning_found = False  # Flag to track if any warnings are found
 
     for domain in domains:
-        expiry_date = get_cert_expiry_date(domain)
+        # If domain contains a colon, it's a hostname:port pair
+        if ':' in domain:
+            domain, port = domain.split(':')
+            port = int(port)
+        else:
+            port = 443
+        
+        expiry_date = get_cert_expiry_date(domain, port)
         if expiry_date:
             days_until_expiry = (expiry_date - current_date).days
             if days_until_expiry < warning_days:
