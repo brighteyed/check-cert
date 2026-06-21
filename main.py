@@ -27,7 +27,8 @@ def check_domains(file_path, warning_days):
         return 1  # Return 1 for file not found error
 
     current_date = datetime.now()
-    warning_found = False  # Flag to track if any warnings are found
+    warning_found = False
+    error_found = False
 
     for domain in domains:
         # If domain contains a colon, it's a hostname:port pair
@@ -47,9 +48,10 @@ def check_domains(file_path, warning_days):
             else:
                 # Normal case: print "XX days" in green
                 print(f"{domain}: {expiry_date.strftime('%Y-%m-%d')} (in {Fore.GREEN}{days_until_expiry} days{Style.RESET_ALL})")
+        else:
+            error_found = True
 
-    # Return 1 if any warnings were found, otherwise 0
-    return 1 if warning_found else 0
+    return 1 if (warning_found or error_found) else 0
 
 def main():
     """Main function to parse arguments and check domain certificates."""

@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="check_cert",
-    version="0.2",
+    version="0.3",
     py_modules=["main"],
     install_requires=[
         "colorama",
